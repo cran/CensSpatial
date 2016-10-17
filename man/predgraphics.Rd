@@ -1,19 +1,18 @@
 \name{predgraphics}
 \alias{predgraphics}
 
-\title{Prediction graphics for SAEM Algortihm for censored spatial data.
+\title{Prediction graphics for SAEM Algortihm for censored spatial data.}
 
-}
 \description{
 This function provides prediction raster graphics representation and its standard deviation.
 }
 
 \usage{
-predgraphics(xpred = NULL, grid1, est, points = T,obspoints = 1:length(est$cc == 0),
-colors = terrain.colors(100),sdgraph = T,
-legend.args.pred = list(text = "Predicted response",side = 4, font = 2, line = 2.5,
-cex = 0.8),legend.args.sdpred = list(text = "Standard deviation predicted",side = 4,
-font = 2, line = 2.5, cex = 0.8))
+predgraphics(xpred = NULL, grid1, est, points = T,obspoints = 1:sum(est$cc == 0),
+colors = terrain.colors(100),sdgraph = T,xlab="X Coord",ylab="Y Coord",
+main1="Predicted response", main2="Standard deviation predicted",
+xlim=c(min(est$coords[,1]),max(est$coords[,1])),ylim=c(min(est$coords[,2]),
+max(est$coords[,2])))
 }
 
 \arguments{
@@ -42,16 +41,22 @@ colors pallete used for the graphics (By default \code{terrain.colors(100)}).
 
 (logical) it indicates if the standard deviation of the prediction points graphic must be plotted (default sdgraph=\code{TRUE}).
 }
-  \item{legend.args.pred}{
 
-arguments for the legend of the prediction raster (see \code{plot.raster}).
-}
-  \item{legend.args.sdpred}{
-arguments for the legend of the standard deviation prediction raster (see \code{plot.raster}).
-}
-}
+\item{xlab}{label for x coordinate of the two plots.}
 
+\item{ylab}{label for y coordinate.}
+
+\item{main1}{an overall title for the prediction plot.}
+
+\item{main2}{an overall title for the standard deviation prediction plot.}
+
+\item{xlim}{x axis limits for the two plots.}
+
+\item{ylim}{y axis limits for the two plots.}
+
+}
 \value{
+
 in addition to the raster graphics for prediction, the next values are retorned:
 
 \item{datapred}{data.frame with the coordinates and the predicted points used in the prediction raster graphic.}
@@ -79,53 +84,26 @@ Maintainer: Alejandro Ordonez <<ordonezjosealejandro@gmail.com>>
 
 \examples{
 \dontrun{
-n<-200 ### sample size for estimation
-n1=100 ### number of observation used in the prediction
+data(depth)
+cc=depth$cc
+y=depth$depth
+coords=depth[,1:2]
 
-###simulated coordinates
-r1=sample(seq(1,30,length=400),n+n1)
-r2=sample(seq(1,30,length=400),n+n1)
-coords=cbind(r1,r2)
-
-coords1=coords[1:n,]
-
-type="matern"
-xtot=as.matrix(rep(1,(n+n1)))
-xobs=xtot[1:n,]
-covpars=c(.3,3,0)
-beta=5
+cov.ini=c(1500,30)
+est=SAEMSCL(cc,y,cens.type="left",trend="cte",coords=coords,M=15,perc=0.25,
+MaxIter=100,pc=0.2,cov.model="gaussian",fix.nugget=F,nugget=10,
+inits.sigmae=cov.ini[2],inits.phi=cov.ini[1], search=T,lower=c(0.00001,0.00001),
+upper=c(10000,100))
 
 
-###simulated data
-obj=rspacens(cov.pars=c(3,.3,0),beta=beta,x=xtot,coords=coords,kappa=1.2,cens=0.25,
-n=(n+n1),n1=n1,cov.model=type,cens.type="left")
-
-data2=obj$datare
-cc=obj$cc
-y=obj$datare[,3]
-coords=obj$datare[,1:2]
-LI=rep(-Inf,length(y))
-LS=rep(Inf,length(y))
-LS[cc==1]=obj$cutof
-
-#######SAEMSpatialCens object########
-
-#####predict with a trend in function of its coordinates
-xtotcor=as.matrix(cbind(1,coords[,1]))
-xcoord=xtotcor[1:n,]
-
-
-est=SAEMSCL(cc,y,cens.type="left",trend="other",x=xcoord,coords=coords,kappa=1.2,M=15,
-perc=0.25,MaxIter=10,pc=0.2,cov.model="exponential", fix.nugget=T,nugget=0,
-inits.sigmae=cov.ini[2],inits.phi=cov.ini[1],search=T,lower=0.00001,upper=50)
-
-coorgra1=seq(min(coords[,1]),max(coords[,2]),length=50)
-coorgra2=seq(min(coords[,1]),max(coords[,2]),length=50)
+coorgra1=seq(min(coords[,1]),max(coords[,1]),length=50)
+coorgra2=seq(min(coords[,2]),max(coords[,2]),length=50)
 
 grid1=expand.grid(x=coorgra1,y=coorgra2)
-xpred=cbind(1,grid1$x)
+xpred=rep(1,2500)
 
-e=predgraphics(xpred=xpred,grid1=grid1,est,points=T,obspoints=1:50,sdgraph=T)
+predgraphics(xpred=xpred,est=est,grid1=grid1,points=T,sdgraph=T)
+
 }
 }
 

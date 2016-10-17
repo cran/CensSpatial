@@ -174,9 +174,11 @@ cc=obj$cc
 y=obj$datare[,3]
 cutoff=rep(obj$cutoff,length(y[cc==1]))
 
+
 aux2=algnaive12(data=data2,cc=obj$cc,covar=T,covar.col=4:5,copred=obj$coords1,
-thetaini=c(.1,..2),y.col=3,coords.col=1:2,fix.nugget=T,nugget=0,kappa=1.2,
+thetaini=c(.1,.2),y.col=3,coords.col=1:2,fix.nugget=T,nugget=0,kappa=1.2,
 cutoff=cutoff,trend=~V4+V5,cov.model=type)
+
 }
 
 }

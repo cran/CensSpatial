@@ -9,7 +9,7 @@
 This function executes the seminaive algorithm proposed by Schelin et al. (2014)}
 \usage{
 Seminaive(data, y.col, coords.col, covar, covar.col, copred,cov.model = "exponential",
-thetaini, fix.nugget = T, nugget,kappa = 0, cons, MaxIter, cc, cutof, trend)
+thetaini, fix.nugget = T, nugget,kappa = 0, cons, MaxIter, cc, cutoff, trend)
 }
 
 \arguments{
@@ -63,7 +63,7 @@ maximum of iterations for the algorithm.
   \item{cc}{
 (binary vector) indicator of censure (1: censored, 0: observed)
 }
-  \item{cutof}{
+  \item{cutoff}{
 (vector) limit of detection for censure ( rc: >cutoff, lc: <cutoff)
 }
   \item{trend}{
@@ -135,12 +135,12 @@ data2[,4:5]=xobs[,-1]
 
 cc=obj$cc
 y=obj$datare[,3]
-cutof=rep(obj$cutof,length(y[cc==1]))
+cutoff=rep(obj$cutoff,length(y[cc==1]))
 
 ###seminaive algorithm
 r=Seminaive(data=data2,y.col=3,covar=T,coords.col=1:2,covar.col=4:5,cov.model="matern",
 thetaini=c(.1,.2),fix.nugget=T,nugget=0,kappa=1.5,cons=c(0.1,2,0.5),MaxIter=100,
-cc=obj$cc,cutof=cutof,copred=obj$coords1,trend=~V4+V5)
+cc=obj$cc,cutoff=cutoff,copred=obj$coords1,trend=~V4+V5)
 
 }
 }

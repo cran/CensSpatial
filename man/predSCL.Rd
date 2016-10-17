@@ -59,6 +59,7 @@ Maintainer: Alejandro Ordonez <<ordonezjosealejandro@gmail.com>>
 
 \dontrun{
 
+
 n<-200 ### sample size for estimation.
 n1=100 ### number of observation used in the prediction.
 
@@ -86,19 +87,17 @@ data2=obj$datare
 cc=obj$cc
 y=obj$datare[,3]
 coords=obj$datare[,1:2]
-LI=rep(-Inf,length(y))
-LS=rep(Inf,length(y))
-LS[cc==1]=obj$cutof
+
 
 #######SAEMSpatialCens object########
 
-est=SAEMSCL(cc,y,cens.type="left",trend="cte",coords=coords,kappa=1.2,M=15,
+est=SAEMSCL(cc,y,cens.type="left",trend="other",x=xobs,coords=coords,kappa=1.2,M=15,
 perc=0.25,MaxIter=10,pc=0.2,cov.model="exponential",fix.nugget=TRUE,nugget=0,
 inits.sigmae=cov.ini[2],inits.phi=cov.ini[1],search=TRUE,lower=0.00001,upper=50)
 
 
 coordspred=obj$coords1
-xpred=rep(1,dim(coordspred)[1])
+xpred=xtot[(n+1):(n+n1),]
 h=predSCL(xpred,coordspred,est)
 }
 

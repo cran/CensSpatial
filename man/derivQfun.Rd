@@ -54,16 +54,18 @@ Maintainer: Alejandro Ordonez <<ordonezjosealejandro@gmail.com>>
 
 \examples{
 \dontrun{
-datos=data("Missouri")
-datos$V3=log((datos$V3))
+require(geoR)
+
+data("Missouri")
+data=Missouri
+data$V3=log((data$V3))
 
 
 
-cc=datos$V5
-y=datos$V3
+cc=data$V5
+y=data$V3
 n=127
-k=1
-datare1=datos
+datare1=data
 coords=datare1[,1:2]
 data1=data.frame(coords,y)
 data1=data1[cc==0,]

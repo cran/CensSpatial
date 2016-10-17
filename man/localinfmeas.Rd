@@ -42,7 +42,7 @@ this function uses the Maximum likelihood expectation (MLE) under three perturba
 }
 
 \value{
-in addition to the diagnostic graphics, the function returns the next values.
+in addition to the diagnostic graphics (response, scale matrix and explanatory variable schemes, respectively), the function returns the next values.
 
 \item{Qwrp}{negative \eqn{Qw0} matrix under the response perturbation scheme.}
 \item{Qwsmp}{negative \eqn{Qw0} matrix under the scale matrix perturbation scheme.}
@@ -77,13 +77,16 @@ Maintainer: Alejandro Ordonez <<ordonezjosealejandro@gmail.com>>
 
 \examples{
 \dontrun{
-datos=data(Missouri)
-datos$V3=log((datos$V3))
-cc=datos$V5
-y=datos$V3
+require(geoR)
+
+data("Missouri")
+data=Missouri
+data$V3=log((data$V3))
+cc=data$V5
+y=data$V3
 n=127
 k=1
-datare1=datos
+datare1=data
 coords=datare1[,1:2]
 data1=data.frame(coords,y)
 data1=data1[cc==0,]
@@ -107,6 +110,7 @@ sm[sm[,1]=="atypical obs",]
 ev=w$expvper
 ev[ev[,1]=="atypical obs",]
 
+
 ##############ANOTHER EXAMPLE#########
 
 n<-200 ### sample size for estimation
@@ -127,7 +131,7 @@ beta=5
 
 ###simulated data
 obj=rspacens(cov.pars=c(3,.3,0),beta=beta,x=xtot,coords=coords,cens=0.25,n=(n+n1),
-n1=n1,cov.model=type,cens.type="left",kappa=kappa)
+n1=n1,cov.model=type,cens.type="left")
 
 data2=obj$datare
 cc=obj$cc

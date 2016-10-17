@@ -78,7 +78,7 @@ cross validation. The covariance functions used here were provided by cov.spatia
     indicator of censure (1:censored 0:observed).
 }
 
-\item{cutof}{
+\item{cutoff}{
     limit of detection simulated for censure (left: <=cutoff, right: > cutoff).
 }
 

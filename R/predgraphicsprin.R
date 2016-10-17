@@ -3,14 +3,13 @@
 ############8. Prediction graphics for SAEM Algortihm##########################
 ##########################################################################
 
-predgraph = function(xpred=NULL,grid1,est,points=T,obspoints=1:length(est$cc==0),colors=terrain.colors(100),sdgraph=T,legend.args.pred=list(text='Predicted response', side=4, font=2, line=2.5, cex=0.8),
-                   legend.args.sdpred=list(text='Standard deviation predicted', side=4, font=2, line=2.5, cex=0.8)){
+predgraph = function(xpred=NULL,grid1,est,points=T,obspoints=1:sum(est$cc==0),colors=terrain.colors(100),sdgraph=T,xlab="X Coord",ylab="Y Coord",main1="Predicted response", main2="Standard deviation predicted",xlim,ylim){
 
   trend=est$trend
-  
+
   coords=est$coords;uy=est$uy;cc=est$cc;tau2=est$tau2;kappa=est$kappa;type=est$type
 
- 
+
     colnames(coords)=c("x","y")
   coordspred=as.matrix(grid1)
   nobsest=length(uy)
@@ -33,11 +32,11 @@ predgraph = function(xpred=NULL,grid1,est,points=T,obspoints=1:length(est$cc==0)
 
   if(trend=="other"){
     if(is.null(xpred)){
-      stop("object of the class SAEMSpatialCens was calculated with 
+      stop("object of the class SAEMSpatialCens was calculated with
            trend= other, specify the xpred matrix")
     }
     else{
-      xpred==xpred
+      xpred=xpred
     }
 
 
@@ -48,37 +47,23 @@ predgraph = function(xpred=NULL,grid1,est,points=T,obspoints=1:length(est$cc==0)
 
   predgrap=predictionsaem(xpred=xpred,coordspred=coordspred,est=est)
   pred=predgrap
-  ymin=xmin=min(pred$coordsobs[,1])
-  ymax=xmax=max(pred$coordsobs[,1])
-  r=raster(ncol=50,nrow=50,vals=predgrap$prediction)
-  extent(r) <- c(xmin,xmax,ymin,ymax)
-  r.range <- c(round(minValue(r),digits=2), round(maxValue(r),digits=2))
 
+grid1$z1=pred$prediction
 
+print(levelplot(z1~x*y,grid1,cuts = 30,col.regions=colors,main=main1,xlab=xlab,ylab=ylab,xlim=xlim,ylim=ylim))
 
-
-  plot(r,col=colors,asp=1,axes=T,xlab= "X coord",
-       ylab="Y coord",axis.args=list(at=round(seq(r.range[1],
-  r.range[2], length=10),digits=2),
-  labels=round(seq(r.range[1], r.range[2], length=10),digits=2),
-   cex.axis=0.6),legend.args=legend.args.pred)
-
-  if(points==T){
-    points(pred$coordsobs[est$cc==0,][obspoints,],pch=20)
-    text(pred$coordsobs[est$cc==0,][obspoints,], labels = round(est$uy[est$cc==0][obspoints],digits=2), cex=0.5,pos=3)
-  }
+if(points==T){
+trellis.focus("panel", 1, 1, highlight=FALSE)
+lpoints(pred$coordsobs[est$cc==0,][obspoints,],pch=19,col=1,cex=0.5)
+ltext(pred$coordsobs[est$cc==0,][obspoints,], labels =round(est$uy[est$cc==0],3), cex=0.5,pos=3)
+trellis.unfocus()
+}
 
   if(sdgraph==T){
-    ymin=xmin=min(pred$coordsobs[,1])
-    ymax=xmax=max(pred$coordsobs[,1])
-    r=raster(ncol=50,nrow=50,vals=predgrap$sdpred)
-    extent(r) <- c(xmin,xmax,ymin,ymax)
-    r.range <- c(round(minValue(r),digits=2), round(maxValue(r),digits=2))
+    grid1$z2=pred$sdpred
     dev.new(noRStudioGD=TRUE)
-    plot(r,col=colors,asp=1,axes=T,xlab= "X coord", ylab="Y coord",axis.args=list(at=round(seq(r.range[1], r.range[2], length=10),digits=2),
-                                                                                  labels=round(seq(r.range[1], r.range[2], length=10),digits=2),
-                                                                                  cex.axis=0.6),
-         legend.args=legend.args.sdpred)
+print(levelplot(z2~x*y,grid1,cuts = 30,col.regions=colors,main=main2,xlab=xlab,ylab=ylab,xlim=xlim,ylim=ylim))
+
   }
   if(sdgraph==F){
     a1=data.frame(predgrap$prediction,predgrap$coordspred)
@@ -92,3 +77,4 @@ predgraph = function(xpred=NULL,grid1,est,points=T,obspoints=1:length(est$cc==0)
   }
 
 }
+
