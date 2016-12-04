@@ -36,6 +36,7 @@ derivQ=function(est,fix.nugget=T){
   uy=est$uy
   uyy=est$uyy
   beta=est$beta
+  kappa=est$kappa
   X=as.matrix(est$X)
   coords=est$coords
   Psi<-varcov.spatial(coords,cov.model=type,cov.pars=c(sigma2,phi),nugget=tau2,kappa=kappa)$varcov

@@ -1,4 +1,4 @@
-export(algnaive12,derivcormatrix,derivQfun,distmatrix,localinfmeas,predgraphics,predSCL,rspacens,SAEMSCL,Seminaive)
+export(algnaive12,derivcormatrix,derivQfun,distmatrix,localinfmeas,predgraphics,predSCL,rspacens,SAEMSCL,Seminaive,atypical)
 importFrom(graphics,plot)
 importFrom(stats,optimize)
 importFrom(geoR,varcov.spatial,as.geodata,likfit,krige.control,krige.conv,output.control)

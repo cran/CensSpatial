@@ -24,7 +24,7 @@ if(!is.logical(points)) stop("points must be TRUE or FALSE")
   if(length(which(div>0))>0) stop("Correct observations must be specified for the prediction graph")
   if(!is.logical(sdgraph)) stop("sdgraph must be TRUE or FALSE")
 
-  out=predgraph(xpred=xpred,grid1=grid1,est=est,points=points,obspoints=obspoints,sdgraph=sdgraph,xlab=xlab,ylab=ylab,main1=main1,main2=main2,xlim=xlim,ylim=ylim)
+  out=predgraph(xpred=xpred,grid1=grid1,est=est,points=points,obspoints=obspoints,sdgraph=sdgraph,xlab=xlab,ylab=ylab,main1=main1,main2=main2,xlim=xlim,ylim=ylim,colors=colors)
 
   return(out)
 
