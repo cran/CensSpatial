@@ -2,7 +2,7 @@
 ##########2.Seminaive algortihm for spatial censored prediction############
 ###########
 
-seminaive=function(data,y.col,coords.col,covar,covar.col,copred,cov.model,thetaini,fix.nugget=T,nugget,kappa,cons,MaxIter,cc,cutof,trend){
+seminaive=function(data,y.col,coords.col,covar,covar.col,copred,cov.model,thetaini,fix.nugget=T,nugget,kappa,cons,MaxIter,cc,trend){
   if(covar==T){
     geodataprin=as.geodata(data,coords.col =coords.col, data.col = y.col, covar.col = covar.col)
     covariates=geodataprin$covariate
@@ -16,6 +16,7 @@ seminaive=function(data,y.col,coords.col,covar,covar.col,copred,cov.model,thetai
 
 
   y=geodataprin$data
+  cutof=y[cc==1]
   #X=as.matrix(rep(1,length(y)))
   zk=y
   zk[cc==1]=0
