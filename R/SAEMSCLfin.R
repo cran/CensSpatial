@@ -1,7 +1,7 @@
 #####SAEM_Spatial
 
 SAEMSCL= function(cc, y, cens.type="left", trend="cte", LI=NULL, LS=NULL, x=NULL, coords, kappa=0, M = 20, perc = 0.25, MaxIter = 300, pc = 0.2,
-                  cov.model="exponential", fix.nugget = TRUE, nugget= 0, inits.sigmae, inits.phi,
+                  cov.model="exponential", fix.nugget = TRUE, nugget, inits.sigmae, inits.phi,
                   search = F, lower, upper)
 {
 

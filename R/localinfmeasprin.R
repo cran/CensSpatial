@@ -14,11 +14,11 @@ locinme=function(est,fix.nugget,diag.plot=T,type.plot="all",c=3){
   beta=est$beta
   n=length(uy)
   k=length(beta)
+  kappa=est$kappa
   pb <- txtProgressBar(min = 0, max =n, style = 3)
   X=as.matrix(est$X)
   tau2=est$nugget
   Sigma=est$Psi
-  kappa=est$kappa
   V1=solve(Sigma)
   V=(1/sigma2)*Sigma
   rphi=V-((tau2/sigma2)*diag(1,dim(V)[1],dim(V)[1]))
@@ -334,9 +334,7 @@ locinme=function(est,fix.nugget,diag.plot=T,type.plot="all",c=3){
   data.frame1=data.frame(at1,m01)
   data.frame2=data.frame(at2,m02)
   data.frame3=data.frame(at3,m03)
-colnames(data.frame1)=c("obs","m0")
-colnames(data.frame2)=c("obs","m0")
-colnames(data.frame3)=c("obs","m0")
+
   if(diag.plot==T){
 
     if(type.plot=="all"){
@@ -367,7 +365,7 @@ colnames(data.frame3)=c("obs","m0")
   }
 
   s=list(Qwrp=Qw1,Qwsmp=Qw2,Qwevp=Qw3,respper=data.frame1,smper=data.frame2,expvper=data.frame3,limrp=lim1,limsmp=lim2,limevp=lim3)
-  class(s)="localinfmeas"
+  class(s)="LocInSCL"
   return(s)
 
 }

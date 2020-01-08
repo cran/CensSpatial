@@ -36,9 +36,9 @@ derivQ=function(est,fix.nugget=T){
   uy=est$uy
   uyy=est$uyy
   beta=est$beta
-  kappa=est$kappa
   X=as.matrix(est$X)
   coords=est$coords
+  kappa=est$kappa
   Psi<-varcov.spatial(coords,cov.model=type,cov.pars=c(sigma2,phi),nugget=tau2,kappa=kappa)$varcov
   r=qlog(theta,coords=coords,X=X,cov.model=type,kappa=kappa,uy=uy,uyy=uyy)
   s=grad(qlog,theta,coords=coords,X=X,cov.model="matern",kappa=kappa,uy=uy,uyy=uyy)

@@ -79,7 +79,7 @@ FCi.fixo<-function(rhoG,tau2,media,sigmae,kappa,uu,yb,uyb,yyb,type.S,coords){
 
 LogVerosCens<-function(cc,y,LI,LS,media,Psi,logarithm=FALSE){
 
-  GB = GenzBretz(maxpts = 5e4, abseps = 1e-9, releps = 0)
+  #GB = GenzBretz(maxpts = 5e4, abseps = 1e-9, releps = 0)
   m<-length(y)
 
   gammai=media
@@ -91,16 +91,16 @@ LogVerosCens<-function(cc,y,LI,LS,media,Psi,logarithm=FALSE){
     if(sum(cc)==m){
       auxupper1<-LS-gammai
       auxupper2<-LI-gammai
-      #ver <- pmvnorm(upper=c(auxupper1),mean=rep(0,sum(cc)),sigma=Psi)-pmvnorm(upper=c(auxupper2),mean=rep(0,sum(cc)),sigma=Psi)
-      ver=pmvnorm(lower=c(auxupper2),upper=c(auxupper2),mean=rep(0,sum(cc)),sigma=Psi)
+      ver=prob_opt(lower = c(auxupper2), upper=c(auxupper1), sigma=Psi)
     }
     else{
       muc<- gammai[cc==1,]+Psi[cc==1,cc==0]%*%solve(Psi[cc==0,cc==0])%*%(y[cc==0]-gammai[cc==0,])
       Sc<- Psi[cc==1,cc==1]-Psi[cc==1,cc==0]%*%solve(Psi[cc==0,cc==0])%*%Psi[cc==0,cc==1]
       auxupper1 <- LS[cc==1]-muc
       auxupper2 <- LI[cc==1]-muc
-      if(logarithm) ver<-dmvnorm(y[cc==0],gammai[cc==0,],Psi[cc==0,cc==0],log=logarithm)+(log(pmvnorm(lower=c(auxupper2),upper=c(auxupper1),mean=rep(0,sum(cc)),sigma=Sc)))
-      else ver<-dmvnorm(y[cc==0],gammai[cc==0,],Psi[cc==0,cc==0])*(pmvnorm(lower=c(auxupper2),upper=c(auxupper1),mean=rep(0,sum(cc)),sigma=Sc))
+      if(logarithm){ver<-dmvnorm(y[cc==0],gammai[cc==0,],Psi[cc==0,cc==0],log=logarithm)+
+        prob_opt(lower=c(auxupper2),upper=c(auxupper1),sigma=Sc,uselog2 = TRUE)/log2(exp(1))} #changing log base from 2 to e
+        else{ver<-dmvnorm(y[cc==0],gammai[cc==0,],Psi[cc==0,cc==0])*(prob_opt(lower=c(auxupper2),upper=c(auxupper1),sigma=Sc))}
 
     }
   }

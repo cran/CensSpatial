@@ -9,6 +9,6 @@ dist<-function(coords){
       dist[i,j] = sqrt(sum((coords[i,]-coords[j,])^2));
     }
   }
-  dist=dist+t(dist);
+  dist=dist+t(dist)/2;
   return(list(dist=dist))
 }

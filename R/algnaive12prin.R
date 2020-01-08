@@ -4,7 +4,7 @@
 
 
 
-naive12=function(data,cc,copred,thetaini,y.col=3,coords.col=1:2,covar,covar.col,fix.nugget=T,nugget,kappa=0.5,cov.model,trend){
+naive12=function(data,cc,copred,thetaini,y.col=3,coords.col=1:2,covar,covar.col,fix.nugget=T,nugget,kappa=0.5,cutof,cov.model,trend){
 
   if(covar==T){
     geodataprin=as.geodata(data,coords.col =coords.col, data.col = y.col, covar.col = covar.col)
@@ -17,7 +17,6 @@ naive12=function(data,cc,copred,thetaini,y.col=3,coords.col=1:2,covar,covar.col,
   coords=geodataprin$coords
   y=geodataprin$data
   covparini=thetaini
-  cutof=y[cc==1]
   naive1=y
   naive2=y
   naive1[cc==1]=cutof

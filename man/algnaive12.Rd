@@ -10,7 +10,7 @@ This function performs spatial censored estimation and prediction for left and r
 }
 \usage{
 algnaive12(data, cc, copred, thetaini, y.col = 3,coords.col = 1:2,covar=F, covar.col,
-fix.nugget = T, nugget, kappa = 0, cov.model = "exponential", trend)
+fix.nugget = T, nugget, kappa = 0, cutoff, cov.model = "exponential", trend)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -65,6 +65,11 @@ initial values for the \eqn{\sigma^2} and \eqn{\phi} values in the covariance st
   \item{kappa}{
 %%     ~~Describe \code{kappa} here~~
 value of \eqn{\kappa} used in some covariance functions.
+}
+
+  \item{cutoff}{
+%%     ~~Describe \code{cutoff} here~~
+(vector) Limit of censure detection ( rc:>cutoff, lc:<cutoff).
 }
 
   \item{cov.model}{
@@ -167,10 +172,12 @@ data2[,4:5]=xobs[,-1]
 
 cc=obj$cc
 y=obj$datare[,3]
+cutoff=rep(obj$cutoff,length(y[cc==1]))
 
-aux2=algnaive12(data=data2,cc=obj$cc,covar=T,covar.col=4:5,
-copred=obj$coords1,thetaini=c(.1,.2),y.col=3,coords.col=1:2,
-fix.nugget=T,nugget=0,kappa=1.2,trend=~V4+V5,cov.model=type)
+
+aux2=algnaive12(data=data2,cc=obj$cc,covar=T,covar.col=4:5,copred=obj$coords1,
+thetaini=c(.1,.2),y.col=3,coords.col=1:2,fix.nugget=T,nugget=0,kappa=1.2,
+cutoff=cutoff,trend=~V4+V5,cov.model=type)
 
 }
 
