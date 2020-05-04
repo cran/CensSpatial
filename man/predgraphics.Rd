@@ -8,8 +8,8 @@ This function provides prediction raster graphics representation and its standar
 }
 
 \usage{
-predgraphics(xpred = NULL, grid1, est, points = T,obspoints = 1:sum(est$cc == 0),
-colors = terrain.colors(100),sdgraph = T,xlab="X Coord",ylab="Y Coord",
+predgraphics(xpred = NULL, grid1, est, points = TRUE,obspoints = 1:sum(est$cc == 0),
+colors = terrain.colors(100),sdgraph = TRUE,xlab="X Coord",ylab="Y Coord",
 main1="Predicted response", main2="Standard deviation predicted",
 xlim=c(min(est$coords[,1]),max(est$coords[,1])),ylim=c(min(est$coords[,2]),
 max(est$coords[,2])))
@@ -83,7 +83,29 @@ Maintainer: Alejandro Ordonez <<ordonezjosealejandro@gmail.com>>
 }
 
 \examples{
-\dontrun{
+\dontshow{
+data(depth)
+cc=depth$cc[1:70]
+y=depth$depth[1:70]
+coords=depth[1:70,1:2]
+
+cov.ini=c(1500,30)
+est=SAEMSCL(cc,y,cens.type="left",trend="cte",coords=coords,M=10,perc=0.25,
+MaxIter=1,pc=0.2,cov.model="gaussian",fix.nugget=FALSE,nugget=10,
+inits.sigmae=cov.ini[2],inits.phi=cov.ini[1], search=TRUE,lower=c(0.00001,0.00001),
+upper=c(10000,100))
+
+
+coorgra1=seq(min(coords[,1]),max(coords[,1]),length=30)
+coorgra2=seq(min(coords[,2]),max(coords[,2]),length=30)
+
+grid1=expand.grid(x=coorgra1,y=coorgra2)
+xpred=rep(1,900)
+
+predgraphics(xpred=xpred,est=est,grid1=grid1,points=TRUE,sdgraph=TRUE)
+}
+
+\donttest{
 data(depth)
 cc=depth$cc
 y=depth$depth
@@ -91,8 +113,8 @@ coords=depth[,1:2]
 
 cov.ini=c(1500,30)
 est=SAEMSCL(cc,y,cens.type="left",trend="cte",coords=coords,M=15,perc=0.25,
-MaxIter=100,pc=0.2,cov.model="gaussian",fix.nugget=F,nugget=10,
-inits.sigmae=cov.ini[2],inits.phi=cov.ini[1], search=T,lower=c(0.00001,0.00001),
+MaxIter=100,pc=0.2,cov.model="gaussian",fix.nugget=FALSE,nugget=10,
+inits.sigmae=cov.ini[2],inits.phi=cov.ini[1], search=TRUE,lower=c(0.00001,0.00001),
 upper=c(10000,100))
 
 
@@ -102,7 +124,7 @@ coorgra2=seq(min(coords[,2]),max(coords[,2]),length=50)
 grid1=expand.grid(x=coorgra1,y=coorgra2)
 xpred=rep(1,2500)
 
-predgraphics(xpred=xpred,est=est,grid1=grid1,points=T,sdgraph=T)
+predgraphics(xpred=xpred,est=est,grid1=grid1,points=TRUE,sdgraph=TRUE)
 
 }
 }

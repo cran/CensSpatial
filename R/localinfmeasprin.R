@@ -2,7 +2,8 @@
 ###########10.Local influence measures#######
 
 
-locinme=function(est,fix.nugget,diag.plot=T,type.plot="all",c=3){
+locinme=function(est,fix.nugget,diag.plot=TRUE,type.plot="all",c=3){
+
   beta=est$beta
   coords = est$coords
   type = est$type
@@ -320,6 +321,66 @@ locinme=function(est,fix.nugget,diag.plot=T,type.plot="all",c=3){
   lim2=mean(m02)+(c*sd(m02))
   lim3=mean(m03)+(c*sd(m03))
 
+#  if(diag.plot==T){
+
+ #   if(type.plot=="all"){
+  #    abline(h=lim1,lty=2,lwd=2)
+   #   abline(h=lim2,lty=2,lwd=2)
+    #  abline(h=lim3,lty=2,lwd=2)
+    #}
+
+    #if(type.plot=="rp"){
+     # abline(h=lim1,lty=2,lwd=2)
+    #}
+
+    #if(type.plot=="smp"){
+    #abline(h=lim2,lty=2,lwd=2)
+    #}
+
+    #if(type.plot=="evp"){
+     #plot(m03,ylab="M(0)",pch=20)
+     #abline(h=lim3,lty=2,lwd=2,pch=20)
+    #}
+
+  #}
+
+
+  if(diag.plot==T){
+    oldpar=par(mfrow=c(1,3))
+    if(type.plot=="all"){
+      on.exit(par(oldpar))
+      plot1=plot(m01,ylab="M(0)",pch=20)
+      abline(h=lim1,lty=2,lwd=2)
+      on.exit(plot1)
+      plot2= plot(m02,ylab="M(0)",pch=20)
+      abline(h=lim2,lty=2,lwd=2)
+      on.exit(plot2)
+      plot3=plot(m03,ylab="M(0)",pch=20)
+      abline(h=lim3,lty=2,lwd=2)
+      on.exit(plot3)
+      }
+
+    if(type.plot=="rp"){
+      plot1=plot(m01,ylab="M(0)",pch=20)
+      on.exit(plot1)
+    }
+
+    if(type.plot=="smp"){
+      plot2= plot(m02,ylab="M(0)",pch=20)
+      abline(h=lim2,lty=2,lwd=2)
+      on.exit(plot2)
+    }
+
+    if(type.plot=="evp"){
+      plot3=plot(m03,ylab="M(0)",pch=20)
+      abline(h=lim3,lty=2,lwd=2)
+      on.exit(plot3)
+    }
+
+  }
+
+
+
   at1=at2=at3=NULL
 
   at1[m01>lim1]="atypical obs"
@@ -335,34 +396,6 @@ locinme=function(est,fix.nugget,diag.plot=T,type.plot="all",c=3){
   data.frame2=data.frame(at2,m02)
   data.frame3=data.frame(at3,m03)
 
-  if(diag.plot==T){
-
-    if(type.plot=="all"){
-      par(mfrow=c(1,3))
-      plot(m01,ylab="M(0)",pch=20)
-      abline(h=lim1,lty=2,lwd=2)
-      plot(m02,ylab="M(0)",pch=20)
-      abline(h=lim2,lty=2,lwd=2)
-      plot(m03,ylab="M(0)",pch=20)
-      abline(h=lim3,lty=2,lwd=2)
-    }
-
-    if(type.plot=="rp"){
-      plot(m01,ylab="M(0)",pch=20)
-      abline(h=lim1,lty=2,lwd=2)
-    }
-
-    if(type.plot=="smp"){
-      plot(m02,ylab="M(0)",pch=20)
-      abline(h=lim2,lty=2,lwd=2)
-    }
-
-    if(type.plot=="evp"){
-      plot(m03,ylab="M(0)",pch=20)
-      abline(h=lim3,lty=2,lwd=2,pch=20)
-    }
-
-  }
 
   s=list(Qwrp=Qw1,Qwsmp=Qw2,Qwevp=Qw3,respper=data.frame1,smper=data.frame2,expvper=data.frame3,limrp=lim1,limsmp=lim2,limevp=lim3)
   class(s)="LocInSCL"

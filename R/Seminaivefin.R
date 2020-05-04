@@ -1,4 +1,4 @@
-Seminaive=function(data,y.col,coords.col,covar,covar.col,copred,cov.model="exponential",thetaini,fix.nugget=T,nugget,kappa=0,cons,MaxIter,cc,cutoff,trend){
+Seminaive=function(data,y.col,coords.col,covar,covar.col,copred,cov.model="exponential",thetaini,fix.nugget=TRUE,nugget,kappa=0,cons,MaxIter,cc,cutoff,trend){
 
   if(!is.data.frame(data) & !is.numeric(data)) stop("data must be a data.frame or numeric matrix")
   if(!is.data.frame(data)) data=as.data.frame(data)
@@ -46,7 +46,7 @@ gneiting, gneiting.matern, pure.nugget')
   ######Not data
   y = data[,y.col]
   coords = data[,coords.col]
-  
+
   if((length(y) == 0) | (length(cc) == 0)|(length(coords) == 0)|(length(copred) == 0)|(length(cutoff) == 0)){
     stop("All parameters must be provided")}
 
@@ -79,55 +79,9 @@ mu = beta0 + beta1*CoordX + beta2*CoordY + beta3*(CoordX)^2 +
 
 mu = X*beta"
   }
-
-
-  #Running the algorithm
-  cat('\n')
-  call <- match.call()
-  cat("Call:\n")
-  print(call)
-  cat('\n')
-  out=out
-  cat('\n\n')
-  cat('---------------------------------------------------\n')
-  cat('  Spatial Censored Linear regression with Normal errors (Seminaive estimation) \n')
-  cat('---------------------------------------------------\n')
-  cat('\n')
-  cat("*Type of trend:",trend1)
-  cat('\n')
-  cat('\n')
-  cat("*Covariance structure:",cov.model)
-  cat('\n')
-  cat('---------\n')
-  cat('Estimates\n')
-  cat('---------\n')
-  cat('\n')
-  trends= out$beta
-  l = length(trends)
-
-  lab = numeric(l+3)
-  for (i in 1:l){ lab[i] = paste('beta ',i-1,sep='')}
-  lab[l+1] = 'sigma2'
-  lab[l+2] ='phi'
-  lab[l+3] ='tau2'
-  tab = round(cbind(out$theta),4)
-  rownames(tab)=lab
-  colnames(tab)=c("Seminaive est.")
-
-  print(tab)
-  cat('\n')
-  cat('------------------------\n')
-  cat('Model selection criteria\n')
-  cat('------------------------\n')
-  cat('\n')
-  critFin <- c(out$loglik, out$AIC, out$BIC)
-  critFin <- round(t(as.matrix(critFin)),digits=3)
-  rownames(critFin) <- c("Value")
-  colnames(critFin)=c("Loglik", "AIC", "BIC")
-  print(critFin)
-  cat('\n')
-
-
+out$trend1=trend1
+out$type=cov.model
+class(out)="seminaive"
   return(out)
 
 }

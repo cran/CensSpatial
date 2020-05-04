@@ -11,7 +11,7 @@ It estimates the parameters for a linear spatial model with censored observation
 \usage{
 SAEMSCL(cc, y, cens.type="left", trend = "cte", LI = NULL, LS = NULL, x = NULL, coords,
 kappa = 0, M = 20, perc = 0.25, MaxIter = 300, pc = 0.2, cov.model = "exponential",
-fix.nugget = TRUE, nugget, inits.sigmae, inits.phi, search = F, lower, upper)
+fix.nugget = TRUE, nugget, inits.sigmae, inits.phi, search = FALSE, lower, upper)
 }
 
 \arguments{
@@ -136,8 +136,45 @@ Maintainer: Alejandro Ordonez <<ordonezjosealejandro@gmail.com>>
 
 
 \examples{
+\dontshow{
+n<-10 ### sample size for estimation.
+n1=1 ### number of observation used in the prediction.
 
-\dontrun{
+###simulated coordinates
+r1=sample(seq(1,30,length=400),n+n1)
+r2=sample(seq(1,30,length=400),n+n1)
+coords=cbind(r1,r2)
+
+coords1=coords[1:n,]
+
+type="matern"
+#xtot<-cbind(1,runif((n+n1)),runif((n+n1),2,3))
+xtot=as.matrix(rep(1,(n+n1)))
+xobs=xtot[1:n,]
+beta=5
+#beta=c(5,3,1)
+
+###simulated data
+obj=rspacens(cov.pars=c(3,.3,0),beta=beta,x=xtot,coords=coords,kappa=1.2,
+cens=0.25,n=(n+n1),n1=n1,cov.model=type,cens.type="left")
+
+data2=obj$datare
+cc=obj$cc
+y=obj$datare[,3]
+coords=obj$datare[,1:2]
+##initials values obtained from variofit.
+cov.ini=c(0.13,0.86)
+
+est=SAEMSCL(cc,y,cens.type="left",trend="cte",coords=coords,
+kappa=1.2,M=15,perc=0.25,MaxIter=5,pc=0.2,cov.model=type,
+fix.nugget=TRUE,nugget=0,inits.sigmae=cov.ini[1],
+inits.phi=cov.ini[2],search=TRUE,lower=0.00001,upper=100)
+
+summary(est)
+}
+
+
+\donttest{
 n<-200 ### sample size for estimation.
 n1=100 ### number of observation used in the prediction.
 
@@ -156,56 +193,25 @@ beta=5
 #beta=c(5,3,1)
 
 ###simulated data
-obj=rspacens(cov.pars=c(3,.3,0),beta=beta,x=xtot,coords=coords,kappa=1.2,cens=0.25,
-n=(n+n1),n1=n1,cov.model=type,cens.type="left")
+obj=rspacens(cov.pars=c(3,.3,0),beta=beta,x=xtot,coords=coords,kappa=1.2,
+cens=0.25,n=(n+n1),n1=n1,cov.model=type,cens.type="left")
 
 data2=obj$datare
 cc=obj$cc
 y=obj$datare[,3]
 coords=obj$datare[,1:2]
-
-
-
-#####obtaining initial values and a possibly search interval.
-require(geoR)
-geod=as.geodata(data2[cc==0,],coords.col=1:2,y.col=3)
-p=variog(geod)
-init=variofit(p,ini.cov.pars=c(0.5,0.2))
-
-
 ##initials values obtained from variofit.
 cov.ini=c(0.13,0.86)
 
-##########with the argument search=F (not converge!! error) ########
+est=SAEMSCL(cc,y,cens.type="left",trend="cte",coords=coords,
+kappa=1.2,M=15,perc=0.25,MaxIter=10,pc=0.2,cov.model=type,
+fix.nugget=TRUE,nugget=0,inits.sigmae=cov.ini[1],
+inits.phi=cov.ini[2],search=TRUE,lower=0.00001,upper=100)
 
+summary(est)
 
-est=SAEMSCL(cc,y,cens.type="left",trend="cte",coords=coords,kappa=1.2,M=15,perc=0.25,
-MaxIter=10,pc=0.2,cov.model="exponential",fix.nugget=T,nugget=0,inits.sigmae=cov.ini[1],
-inits.phi=cov.ini[2],search=F)
-
-
-
-#######with the argument search=T and considering lower=0.00001, upper=100.
-#(a relatively wide interval considering the initial values).
-
-est=SAEMSCL(cc,y,cens.type="left",trend="cte",coords=coords,kappa=1.2,M=15,perc=0.25,
-MaxIter=10,pc=0.2,cov.model=type,fix.nugget=T,nugget=0,inits.sigmae=cov.ini[1],
-inits.phi=cov.ini[2],search=T,lower=0.00001,upper=100)
-
-
-########considering cens.type="both" but equivalent to "left".
-
-LI=rep(-Inf,length(y))
-LS=rep(Inf,length(y))
-LS[cc==1]=obj$cutof
-
-
-est=SAEMSCL(cc,y,cens.type="both",LI=LI,LS=LS,trend="cte",coords=coords,kappa=1.2,M=15,
-perc=0.25,MaxIter=10,pc=0.2,cov.model="exponential",fix.nugget=T,nugget=0,
-inits.sigmae=cov.ini[1],inits.phi=cov.ini[2],search=T,lower=0.00001,upper=100)
 
 }
-
 }
 \keyword{Spatial}
 \keyword{Censored}

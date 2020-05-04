@@ -21,7 +21,7 @@ circular,cubic, wave, linear, power, powered.exponential, stable, cauchy, gencau
   if(!is.numeric(cens)) stop("cens must be a real number in [0,1]")
   if(cens > 1 | cens < 0) stop("cens must be a real number in [0,1]")
   if(n <= 1 |n%%1!=0) stop("n must be a positive integer value (greater than 1)")
-  if(n1 <= 1 |n1%%1!=0) stop("n1 must be a positive integer value (greater than 1)")
+  if(n1 < 1 |n1%%1!=0) stop("n1 must be a positive integer value (greater than 0)")
   if(!is.numeric(beta)) stop("beta must be a numeric vector")
   if(length(beta)!=ncol(x)) stop("length of beta must be the same than the number of columns of x")
   if(!is.numeric(cov.pars)) stop("cov.pars must be a numeric vector")

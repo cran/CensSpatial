@@ -3,7 +3,7 @@
 ############8. Prediction graphics for SAEM Algortihm##########################
 ##########################################################################
 
-predgraph = function(xpred=NULL,grid1,est,points=T,obspoints=1:sum(est$cc==0),colors=terrain.colors(100),sdgraph=T,xlab="X Coord",ylab="Y Coord",main1="Predicted response", main2="Standard deviation predicted",xlim,ylim){
+predgraph = function(xpred=NULL,grid1,est,points=TRUE,obspoints=1:sum(est$cc==0),colors=terrain.colors(100),sdgraph=TRUE,xlab="X Coord",ylab="Y Coord",main1="Predicted response", main2="Standard deviation predicted",xlim,ylim){
 
   trend=est$trend
 
@@ -50,27 +50,31 @@ predgraph = function(xpred=NULL,grid1,est,points=T,obspoints=1:sum(est$cc==0),co
 
 grid1$z1=pred$prediction
 
-print(levelplot(z1~x*y,grid1,cuts = 30,col.regions=colors,main=main1,xlab=xlab,ylab=ylab,xlim=xlim,ylim=ylim))
-
-if(points==T){
+t=levelplot(z1~x*y,grid1,cuts = 30,col.regions=colors,main=main1,xlab=xlab,ylab=ylab,xlim=xlim,ylim=ylim)
+print(t)
+if(points==TRUE){
 trellis.focus("panel", 1, 1, highlight=FALSE)
 lpoints(pred$coordsobs[est$cc==0,][obspoints,],pch=19,col=1,cex=0.5)
 ltext(pred$coordsobs[est$cc==0,][obspoints,], labels =round(est$uy[est$cc==0],3), cex=0.5,pos=3)
 trellis.unfocus()
 }
 
-  if(sdgraph==T){
-    grid1$z2=pred$sdpred
-    dev.new(noRStudioGD=TRUE)
-print(levelplot(z2~x*y,grid1,cuts = 30,col.regions=colors,main=main2,xlab=xlab,ylab=ylab,xlim=xlim,ylim=ylim))
+on.exit(t)
 
+  if(sdgraph==TRUE){
+    grid1$z2=pred$sdpred
+    dev21=dev.new(noRStudioGD=TRUE)
+    on.exit(dev21)
+sdp=levelplot(z2~x*y,grid1,cuts = 30,col.regions=colors,main=main2,xlab=xlab,ylab=ylab,xlim=xlim,ylim=ylim)
+print(sdp)
+on.exit(sdp)
   }
-  if(sdgraph==F){
+  if(sdgraph==FALSE){
     a1=data.frame(predgrap$prediction,predgrap$coordspred)
     return(invisible(list(datapred=a1)))
   }
 
-  if(sdgraph==T){
+  if(sdgraph==TRUE){
     a1=data.frame(predgrap$prediction,predgrap$coordspred)
     a2=data.frame(predgrap$sdpred,predgrap$coordspred)
     return(invisible(list(datapred=a1,datasdpred=a2)))

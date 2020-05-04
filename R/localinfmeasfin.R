@@ -1,4 +1,4 @@
-localinfmeas=function(est,fix.nugget=T,diag.plot=T,type.plot="all",c=3){
+localinfmeas=function(est,fix.nugget=TRUE,diag.plot=TRUE,type.plot="all",c=3){
 
   if(class(est)!="SAEMSpatialCens") stop("an object of the class SAEMSpatialCens must be provided")
   if(!is.logical(fix.nugget)) stop("fix.nugget must be TRUE or FALSE")
@@ -21,19 +21,19 @@ localinfmeas=function(est,fix.nugget=T,diag.plot=T,type.plot="all",c=3){
   out=locinme(est=est,fix.nugget=fix.nugget,diag.plot=diag.plot,type.plot=type.plot,c=c)
 
 
-  cat('\n\n')
-  cat('---------------------------------------------------\n')
-  cat('   Diagnostic in Spatial Censored Linear regression
-         with Normal errors (SAEM estimation)   \n')
-  cat('---------------------------------------------------\n')
-  cat('\n')
-  cat("Perturbation Schemes")
-  cat('\n')
-  cat('\n')
-  cat("*Response perturbation \n")
-  cat("*Scale matrix perturbation \n")
-  cat("*Explanatory variable perturbation \n")
-  cat('\n')
+ # cat('\n\n')
+#  cat('---------------------------------------------------\n')
+ # cat('   Diagnostic in Spatial Censored Linear regression
+  #       with Normal errors (SAEM estimation)   \n')
+  #cat('---------------------------------------------------\n')
+  #cat('\n')
+  #cat("Perturbation Schemes")
+  #cat('\n')
+  #cat('\n')
+  #cat("*Response perturbation \n")
+  #cat("*Scale matrix perturbation \n")
+  #cat("*Explanatory variable perturbation \n")
+  #cat('\n')
 
   return(out)
 

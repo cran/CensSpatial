@@ -1,4 +1,4 @@
-algnaive12=function(data,cc,copred,thetaini,y.col=3,coords.col=1:2,covar=F,covar.col,fix.nugget=T,nugget,kappa=0,cutoff,cov.model="exponential",trend){
+algnaive12=function(data,cc,copred,thetaini,y.col=3,coords.col=1:2,covar=FALSE,covar.col,fix.nugget=TRUE,nugget,kappa=0,cutoff,cov.model="exponential",trend){
 
   if(!is.data.frame(data) & !is.numeric(data)) stop("data must be a data.frame or numeric matrix")
   if(!is.data.frame(data)) data=as.data.frame(data)
@@ -43,7 +43,7 @@ gneiting, gneiting.matern, pure.nugget')
   ######Not data
   y = data[,y.col]
   coords = data[,coords.col]
-                
+
   if((length(y) == 0) | (length(cc) == 0)|(length(coords) == 0)|(length(copred) == 0)|(length(cutoff) == 0)){
     stop("All parameters must be provided")}
 
@@ -76,56 +76,12 @@ mu = beta0 + beta1*CoordX + beta2*CoordY + beta3*(CoordX)^2 +
 mu = X*beta"
   }
 
+
+  out$trend1=trend1
+  out$type=cov.model
   #out=naive12(data=data,cc=cc,covar=covar,covar.col=covar.col,copred=copred,thetaini=thetaini,y.col=y.col,coords.col=coords.col,fix.nugget=fix.nugget,nugget=nugget,kappa=kappa,cutof=cutoff,trend=trend)
 
-  #Running the algorithm
-  cat('\n')
-  call <- match.call()
-  cat("Call:\n")
-  print(call)
-  cat('\n')
-  out=out
-  cat('\n\n')
-  cat('---------------------------------------------------\n')
-  cat('  Spatial Censored Linear regression with Normal errors (Naive 1 and Naive 2 estimation) \n')
-  cat('---------------------------------------------------\n')
-  cat('\n')
-  cat("*Type of trend:",trend1)
-  cat('\n')
-  cat('\n')
-  cat("*Covariance structure:",cov.model)
-  cat('\n')
-  cat('---------\n')
-  cat('Estimates\n')
-  cat('---------\n')
-  cat('\n')
-  trends= out$beta1
-  l = length(trends)
-
-  lab = numeric(l+3)
-  for (i in 1:l){ lab[i] = paste('beta ',i-1,sep='')}
-  lab[l+1] = 'sigma2'
-  lab[l+2] ='phi'
-  lab[l+3] ='tau2'
-  tab = round(cbind(out$theta1,out$theta2),4)
-  rownames(tab)=lab
-  colnames(tab)=c("Naive 1","Naive 2")
-
-  print(tab)
-  cat('\n')
-  cat('------------------------\n')
-  cat('Model selection criteria\n')
-  cat('------------------------\n')
-  cat('\n')
-  critFin1 <- c(out$loglik1, out$AIC1, out$BIC1)
-  critFin2 <- c(out$loglik2, out$AIC2, out$BIC2)
-  critFin=rbind(critFin1,critFin2)
-  critFin <- round(as.matrix(critFin),digits=3)
-  rownames(critFin) <- c("Naive 1", "Naive 2")
-  colnames(critFin)=c("Loglik", "AIC", "BIC")
-  print(critFin)
-  cat('\n')
-
+  class(out) <- "naive"
 
   return(out)
 

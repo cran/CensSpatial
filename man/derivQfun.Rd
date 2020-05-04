@@ -9,7 +9,7 @@
 It computes the \eqn{logQ} function, its derivates of first and second order and the inverse of the hessian matrix for the SAEM estimated parameters.
 }
 \usage{
-derivQfun(est, fix.nugget = T)
+derivQfun(est, fix.nugget = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -53,18 +53,15 @@ Maintainer: Alejandro Ordonez <<ordonezjosealejandro@gmail.com>>
 
 
 \examples{
-\dontrun{
 require(geoR)
-
 data("Missouri")
-data=Missouri
+data=Missouri[1:70,]
 data$V3=log((data$V3))
 
 
 
 cc=data$V5
 y=data$V3
-n=127
 datare1=data
 coords=datare1[,1:2]
 data1=data.frame(coords,y)
@@ -75,15 +72,15 @@ v1=variofit(v)
 cov.ini=c(0,2)
 
 est=SAEMSCL(cc,y,cens.type="left",trend="cte",coords=coords,M=15,perc=0.25,MaxIter=5,pc=0.2,
-cov.model="exponential",fix.nugget=T,nugget=2,inits.sigmae=cov.ini[2],inits.phi=cov.ini[1],
-search=T,lower=0.00001,upper=50)
+cov.model="exponential",fix.nugget=TRUE,nugget=2,inits.sigmae=cov.ini[2],inits.phi=cov.ini[1],
+search=TRUE,lower=0.00001,upper=50)
 
 
 d1=derivQfun(est)
 d1$QI
 }
 
-}
+
 
 
 \keyword{Spatial}

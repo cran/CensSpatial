@@ -1,4 +1,4 @@
-predgraphics=function(xpred=NULL,grid1,est,points=T, obspoints=1:sum(est$cc==0),colors=terrain.colors(100),sdgraph=T,xlab="X Coord",ylab="Y Coord",
+predgraphics=function(xpred=NULL,grid1,est,points=TRUE, obspoints=1:sum(est$cc==0),colors=terrain.colors(100),sdgraph=TRUE,xlab="X Coord",ylab="Y Coord",
 main1="Predicted response", main2="Standard deviation predicted",xlim=c(min(est$coords[,1]),max(est$coords[,1])),ylim=c(min(est$coords[,2]),max(est$coords[,2]))){
 
   if(class(est)!="SAEMSpatialCens") stop("an object of the class SAEMSpatialCens must be provided")

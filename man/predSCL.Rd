@@ -57,7 +57,52 @@ Maintainer: Alejandro Ordonez <<ordonezjosealejandro@gmail.com>>
 
 \examples{
 
-\dontrun{
+
+\dontshow{
+ini=Sys.time()
+n<-200 ### sample size for estimation.
+n1=100 ### number of observation used in the prediction.
+
+###simulated coordinates
+r1=sample(seq(1,30,length=400),n+n1)
+r2=sample(seq(1,30,length=400),n+n1)
+
+coords=cbind(r1,r2)### coordinates for estimation and prediction.
+
+coords1=coords[1:n,]####coordinates used in estimation.
+
+cov.ini=c(0.2,0.1)###initial values for phi and sigma2.
+
+type="matern"
+xtot<-cbind(1,runif((n+n1)),runif((n+n1),2,3))###X matrix for estimation and prediction.
+
+xobs=xtot[1:n,]###X matrix for estimation.
+beta=c(5,3,1)
+
+###simulated data
+obj=rspacens(cov.pars=c(3,.3,0),beta=beta,x=xtot,coords=coords,kappa=1.2,cens=0.25,
+n=(n+n1),n1=n1,cov.model=type,cens.type="left")
+
+data2=obj$datare
+cc=obj$cc
+y=obj$datare[,3]
+coords=obj$datare[,1:2]
+
+
+#######SAEMSpatialCens object########
+
+est=SAEMSCL(cc,y,cens.type="left",trend="other",x=xobs,coords=coords,kappa=1.2,M=15,
+perc=0.25,MaxIter=1,pc=0.2,cov.model="exponential",fix.nugget=TRUE,nugget=0,
+inits.sigmae=cov.ini[2],inits.phi=cov.ini[1],search=TRUE,lower=0.00001,upper=50)
+
+
+coordspred=obj$coords1
+xpred=xtot[(n+1):(n+n1),]
+h=predSCL(xpred,coordspred,est)
+fin=Sys.time()-ini
+}
+
+\donttest{
 
 
 n<-200 ### sample size for estimation.

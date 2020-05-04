@@ -9,8 +9,8 @@ Naive 1 and Naive 2 method for spatial prediction.
 This function performs spatial censored estimation and prediction for left and right censure through the Naive 1 and Naive 2 methods.
 }
 \usage{
-algnaive12(data, cc, copred, thetaini, y.col = 3,coords.col = 1:2,covar=F, covar.col,
-fix.nugget = T, nugget, kappa = 0, cutoff, cov.model = "exponential", trend)
+algnaive12(data, cc, copred, thetaini, y.col = 3,coords.col = 1:2,covar=FALSE, covar.col,
+fix.nugget = TRUE, nugget, kappa = 0, cutoff, cov.model = "exponential", trend)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -120,6 +120,11 @@ Naive 2 method.}
 
 \item{sdpred2}{standard deviations of predictions in the Naive 2 method.
 }
+\item{type}{covariance function used in estimation.
+}
+\item{trend1}{trend form for the mean structure.
+}
+
 
 
 }
@@ -141,12 +146,6 @@ Maintainer: Alejandro Ordonez <<ordonezjosealejandro@gmail.com>>
 
 
 \examples{
-
-\dontrun{
-
-n<-200 ### sample size for estimation.
-n1=100 ### number of observation used for prediction.
-
 ###simulated coordinates
 n<-200 ### sample size for estimation.
 n1=100 ### number of observation used in the prediction.
@@ -175,11 +174,12 @@ y=obj$datare[,3]
 cutoff=rep(obj$cutoff,length(y[cc==1]))
 
 
-aux2=algnaive12(data=data2,cc=obj$cc,covar=T,covar.col=4:5,copred=obj$coords1,
-thetaini=c(.1,.2),y.col=3,coords.col=1:2,fix.nugget=T,nugget=0,kappa=1.2,
-cutoff=cutoff,trend=~V4+V5,cov.model=type)
+aux2=algnaive12(data=data2,cc=obj$cc,covar=TRUE,covar.col=4:5,
+copred=obj$coords1,thetaini=c(.1,.2),y.col=3,coords.col=1:2,
+fix.nugget=TRUE,nugget=0,kappa=1.2,cutoff=cutoff,trend=~V4+V5,
+cov.model=type)
 
-}
+summary(aux2)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

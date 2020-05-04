@@ -2,7 +2,7 @@
 
 SAEMSCL= function(cc, y, cens.type="left", trend="cte", LI=NULL, LS=NULL, x=NULL, coords, kappa=0, M = 20, perc = 0.25, MaxIter = 300, pc = 0.2,
                   cov.model="exponential", fix.nugget = TRUE, nugget, inits.sigmae, inits.phi,
-                  search = F, lower, upper)
+                  search = FALSE, lower, upper)
 {
 
   m = length(y)
@@ -225,86 +225,17 @@ mu = X*beta"
   }
 
 
-  #Running the algorithm
-  cat('\n')
-  call <- match.call()
-  cat("Call:\n")
-  print(call)
-  cat('\n')
-
-  out=out
-
-  cat('\n\n')
-  cat('---------------------------------------------------\n')
-  cat('  Spatial Censored Linear regression with Normal errors (SAEM estimation) \n')
-  cat('---------------------------------------------------\n')
-  cat('\n')
-  cat("*Type of trend:",trend1)
-  cat('\n')
-  cat('\n')
-  cat("*Covariance structure:",out$type)
-  cat('\n')
-  cat('---------\n')
-  cat('Estimates\n')
-  cat('---------\n')
-  cat('\n')
-  trends=out$X
-  l = ncol(trends)
-  if(fix.nugget){
-    lab = numeric(l+2)
-    for (i in 1:l) lab[i] = paste('beta ',i-1,sep='')
-    lab[l+1] = 'sigma2'
-    lab[l+2] ='phi'
-    tab = round(cbind(out$theta,out$ep),4)
-    rownames(tab)=t(lab)
-    colnames(tab)="Estimated"
-  }else{
-    lab = numeric(l+3)
-    for (i in 1:l) lab[i] = paste('beta ',i-1,sep='')
-    lab[l+1] = 'sigma2'
-    lab[l+2] ='phi'
-    lab[l+3] ='tau2'
-    tab = round(cbind(out$theta,out$ep),4)
-    rownames(tab)=lab
-    colnames(tab)="Estimated"
-  }
-  print(tab)
-  cat('\n')
-  cat('------------------------\n')
-  cat('Model selection criteria\n')
-  cat('------------------------\n')
-  cat('\n')
-  critFin <- c(out$loglik, out$AIC, out$BIC, out$AICcorr)
-  critFin <- round(t(as.matrix(critFin)),digits=3)
-  dimnames(critFin) <- list(c("Value"),c("Loglik", "AIC", "BIC","AICcorr"))
-  print(critFin)
-  cat('\n')
-  cat('-------\n')
-  cat('Details\n')
-  cat('-------\n')
-  cat('\n')
-  cat('Type of censoring =',cens.type)
-  cat('\n')
-  if (sum(cc)>0) {
-    cat("Convergence reached? =",(out$iter < MaxIter))
-    cat('\n')
-    cat('Iterations =',out$iter,"/",MaxIter)
-    cat('\n')
-    cat('MC sample =',M)
-    cat('\n')
-    cat('Cut point =',pc)
-    cat('\n')
-  }
-
-
-
-
-
 
   obj.out <- list(beta = out$beta1, sigma2 = out$sigmae, phi = out$phi, nugget = out$tau2, Theta=out$Theta, loglik=out$loglik,
                   AIC=out$AIC, BIC=out$BIC, AICcorr=out$AICcorr,X=out$X, Psi=out$Psi,trend=out$trend,
                   theta = out$theta, uyy = out$yy,uy=out$uy,cc=out$cc,type=out$type,kappa=out$kappa,coords=out$coords,iterations=out$iter,timex=out$timex,fitted=out$fitted)
 
+  obj.out$trend1=trend1
+  obj.out$M=M
+  obj.out$pc=pc
+  obj.out$cens.type=cens.type
+  obj.out$MaxIter=MaxIter
+obj.out$fix.nugget=fix.nugget
   class(obj.out) <- "SAEMSpatialCens"
 
   return(invisible(obj.out))

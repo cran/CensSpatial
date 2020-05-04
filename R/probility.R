@@ -6,10 +6,10 @@ prob_opt = function(lower = rep(-Inf,ncol(sigma)),upper = rep(Inf,ncol(sigma)),m
                     log2(pmvnorm(lower = lower,upper = upper,mean = mean,sigma = sigma)[1]),
                     pmvnorm(lower = lower,upper = upper,mean = mean,sigma = sigma)[1])
       if(prob < 0){
-        prob = pmvn.genz(lower = lower,upper = upper,mean = mean,sigma = sigma,uselog2 = uselog2)[[1]]
+        prob = pmvn(lower = lower,upper = upper,mean = mean,sigma = sigma,uselog2 = uselog2)[[1]]
       }
     }else{
-      prob = pmvn.genz(lower = lower,upper = upper,mean = mean,sigma = sigma,uselog2 = uselog2)[[1]]
+      prob = pmvn(lower = lower,upper = upper,mean = mean,sigma = sigma,uselog2 = uselog2)[[1]]
     }
   return(prob)
 }

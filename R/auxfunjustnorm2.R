@@ -25,10 +25,10 @@ FCi<-function(rhoG,media,sigmae,kappa,uu,yb,uyb,yyb,type.S,coords){
 
   key <- TRUE
   V.inv <- try(solve(V),silent=TRUE)
-  if(class(V.inv) == "try-error") return(Inf)
+  if(inherits(class(V.inv),"try-error")) return(Inf)
 
   detV <- try(determinant(V,logarithm=TRUE)$modulus, silent=TRUE)
-  if(class(V.inv) == "try-error") return(Inf)
+  if(inherits(class(V.inv),"try-error")) return(Inf)
 
   AA<- (sum(diag(yy1%*%V.inv))-t(uy1)%*%V.inv%*%media-t(media)%*%V.inv%*%uy1+u1*(t(media)%*%V.inv%*%media))
   vero<- as.numeric(-0.5*(detV+1/sigmae*AA))
@@ -61,10 +61,10 @@ FCi.fixo<-function(rhoG,tau2,media,sigmae,kappa,uu,yb,uyb,yyb,type.S,coords){
   else{
     key <- TRUE
     V.inv <- try(solve(V),silent=TRUE)
-    if(class(V.inv) == "try-error") return(Inf)
+    if(inherits(class(V.inv),"try-error")) return(Inf)
 
     detV <- try(determinant(V,logarithm=TRUE)$modulus, silent=TRUE)
-    if(class(V.inv) == "try-error") return(Inf)
+    if(inherits(class(V.inv),"try-error")) return(Inf)
 
 
     #AA<- (sum(diag(yy1%*%solve(V)))-t(uy1)%*%solve(V)%*%media-t(media)%*%solve(V)%*%uy1+u1*(t(media)%*%solve(V)%*%media))
@@ -208,61 +208,38 @@ dist<-function(coords){
 derivater=function(coords,phi,kappa,type){
   H=dist(coords)
   H=abs(H$dist)
-  if(type=="exponential"){
-    H1 <- (H/phi^2)*exp(-(H/phi))
-    diag(H1) <- 0
-
-    H2 <- ((H*(H-(2*phi)))/phi^4)*exp(-(H/phi))
-    diag(H2) <- 0
+  if (type=="exponential"){
+    H1 <- (abs(H)/phi^2)*exp(-(abs(H)/phi))
+    H2 <- abs(H)*(abs(H)-2*phi)*exp(-(abs(H)/phi))/(phi^4)
   }
 
-  if(type=="gaussian"){
-    H1 <- (2/phi^3)*H^2*exp(-((H/phi)^2))
-    diag(H1) <- 0
-    H2 <- (((4*H^4)-(6*H^2*phi^2))/phi^6)*exp(-((H/phi)^2))
-    diag(H1) <- 0
+  if (type=="gaussian"){
+    H1 <- (2*abs(H)^2/phi^3)*exp(-(abs(H)/phi)^2)
+    H2 <- (4*abs(H)^4 - 6*abs(H)^2*phi^2)*exp(-(abs(H)/phi)^2)/(phi^6)
   }
 
-  if(type=="matern"){
-
-    Ak=besselK((H/phi),nu=(kappa-1))+besselK((H/phi),nu=(kappa+1))
-    Bk=besselK((H/phi),nu=(kappa-2))-(2*besselK((H/phi),nu=(kappa)))+besselK((H/phi),nu=(kappa+2))
-    cons=-1/((2^kappa)*phi^2*gamma(kappa))
-
-    H1=cons*((H/phi)^kappa)*((H*Ak)+(2*kappa*phi*besselK((H/phi),nu=(kappa))))
-    diag(H1) <- 0
-    t1=-4*phi*(kappa+1)*((kappa*phi*besselK((H/phi),nu=(kappa)))+(H*Ak))
-    t2=-(H^2/(4*phi^6))*((H/phi)^(kappa-2))*(-H^2*Bk)
-    H2=(2^(1-kappa)/gamma(kappa))*(t1+t2)
-    diag(H2) <- 0
+  if (type=="matern"){
+    H[H==0]<-1
+    Ak <- besselK(abs(H)/phi,(kappa-1)) + besselK(abs(H)/phi,(kappa+1))
+    Bk <- besselK(abs(H)/phi,(kappa-2)) + 2*besselK(abs(H)/phi,kappa) + besselK(abs(H)/phi,(kappa+2))
+    H1 <- -1/((2^kappa)*(phi^2)*gamma(kappa))*(abs(H)/phi)^kappa*(2*kappa*phi*besselK(abs(H)/phi,kappa) - abs(H)*Ak)
+    H2 <- (abs(H)^kappa)/(2^(kappa+1)*gamma(kappa)*phi^(kappa+4))*(4*kappa*(kappa+1)*phi^2*besselK(abs(H)/phi,kappa) - 4*(kappa+1)*phi*abs(H)*Ak + abs(H)^2*Bk)
   }
 
-  if(type=="spherical"){
-    H1=matrix(0,dim(H)[1],dim(H)[1])
-    H2=matrix(0,dim(H)[1],dim(H)[1])
-    H1[H<phi]=(1.5*H[H<phi]/phi^2)-(1.5*(H[H<phi]^3)/phi^4)
-    H2[H<phi]=(-3*H[H<phi]/phi^3)+(6*(H[H<phi]^3)/phi^5)
-    diag(H1) <- 0
-    diag(H2) <- 0
+  if (type=="pow.exp"){
+    H1 <- (kappa/phi)*(abs(H)/phi)^(kappa)*exp(-(abs(H)/phi)^(kappa))
+    H2 <- H1*(kappa*abs(H)^kappa/(phi^(kappa+1)) - (kappa+1)/phi)
   }
 
-
-  if(type=="powered.exponential"){
-    H1=(kappa*H^kappa/(phi^(kappa+1)))*exp(-((H/phi)^kappa))
-    H2=H1*((kappa*H^kappa/(phi^(kappa+1)))-((kappa+1)/phi))
-    diag(H1) <- 0
-    diag(H2) <- 0
+  if (type=="spherical"){
+    H1 <- 1.5*(abs(H)/phi^2) - 1.5*(abs(H)^3/phi^4)
+    Haux <- (abs(H)>phi) + 0
+    H1[Haux==1] <- 0
+    H2 <- 6*(abs(H)^3)/(phi^5) - 3*abs(H)/(phi^3)
+    H2[Haux==1] <- 0
   }
-
-  if(type=="cauchy"){
-    H1=((-2*kappa/(phi^3))*(H^2))*((1+ (H/phi)^2)^(kappa-1))
-    te1=((3/(phi^4))*(H^2))*((1+ (H/phi)^2)^(kappa-1))
-    te2=(((2*(kappa-1))/(phi^6))*(H^4))*((1+ (H/phi)^2)^(kappa-2))
-    H2=(-2*kappa)*(te1-te2)
-    diag(H1) <- 0
-    diag(H2) <- 0
-  }
-
+  diag(H1) <- 0 # First derivative correlation matrix
+  diag(H2) <- 0 # Second derivative correlation matrix
 
   devR1 <- H1
   devR2 <- H2

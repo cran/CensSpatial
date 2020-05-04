@@ -10,7 +10,7 @@ It computes some measures and plots to asses the local influence of outliers in 
 for censored spatial observations, for six types of covariance functions (est$type): "exponential", "matern", "gauss", "spherical","powered.exponential" or "stable" and "cauchy".
 }
 \usage{
-localinfmeas(est, fix.nugget = T, diag.plot = T, type.plot = "all", c = 3)
+localinfmeas(est, fix.nugget = TRUE, diag.plot = TRUE, type.plot = "all", c = 3)
 }
 
 \arguments{
@@ -76,7 +76,43 @@ Maintainer: Alejandro Ordonez <<ordonezjosealejandro@gmail.com>>
 }
 
 \examples{
-\dontrun{
+\dontshow{
+require(geoR)
+
+data("Missouri")
+data=Missouri[1:70,]
+data$V3=log((data$V3))
+cc=data$V5
+y=data$V3
+n=127
+k=1
+datare1=data
+coords=datare1[,1:2]
+data1=data.frame(coords,y)
+data1=data1[cc==0,]
+geodata=as.geodata(data1,y.col=3,coords.col=1:2)
+v=variog(geodata)
+v1=variofit(v)
+cov.ini=c(0,2)
+est=SAEMSCL(cc,y,cens.type="left",trend="cte",coords=coords,M=15,perc=0.25,
+MaxIter=1,pc=0.2,cov.model="exponential",fix.nugget=TRUE,nugget=2,
+inits.sigmae=cov.ini[2],inits.phi=cov.ini[1], search=TRUE,lower=0.00001,upper=100)
+
+
+w=localinfmeas(est,fix.nugget=TRUE,c=3)
+
+res=w$respper
+res[res[,1]=="atypical obs",]
+
+sm=w$smper
+sm[sm[,1]=="atypical obs",]
+
+ev=w$expvper
+ev[ev[,1]=="atypical obs",]
+}
+
+\donttest{
+
 require(geoR)
 
 data("Missouri")
@@ -95,11 +131,11 @@ v=variog(geodata)
 v1=variofit(v)
 cov.ini=c(0,2)
 est=SAEMSCL(cc,y,cens.type="left",trend="cte",coords=coords,M=15,perc=0.25,
-MaxIter=5,pc=0.2,cov.model="exponential",fix.nugget=T,nugget=2,
-inits.sigmae=cov.ini[2],inits.phi=cov.ini[1], search=T,lower=0.00001,upper=100)
+MaxIter=5,pc=0.2,cov.model="exponential",fix.nugget=TRUE,nugget=2,
+inits.sigmae=cov.ini[2],inits.phi=cov.ini[1], search=TRUE,lower=0.00001,upper=100)
 
 
-w=localinfmeas(est,fix.nugget=T,c=3)
+w=localinfmeas(est,fix.nugget=TRUE,c=3)
 
 res=w$respper
 res[res[,1]=="atypical obs",]
@@ -110,7 +146,7 @@ sm[sm[,1]=="atypical obs",]
 ev=w$expvper
 ev[ev[,1]=="atypical obs",]
 
-
+fin=Sys.time()-ini
 ##############ANOTHER EXAMPLE#########
 
 n<-200 ### sample size for estimation
@@ -147,11 +183,11 @@ coords=obj$datare[,1:2]
 cov.ini=c(0.2,0.1)
 
 est=SAEMSCL(cc,y,cens.type="left",trend="cte",coords=coords,M=15,perc=0.25,
-MaxIter=10,pc=0.2,cov.model=type,fix.nugget=T,nugget=0,inits.sigmae=cov.ini[1],
-inits.phi=cov.ini[2],search=T,lower=0.00001,upper=50)
+MaxIter=10,pc=0.2,cov.model=type,fix.nugget=TRUE,nugget=0,inits.sigmae=cov.ini[1],
+inits.phi=cov.ini[2],search=TRUE,lower=0.00001,upper=50)
 
 
-w=localinfmeas(est,fix.nugget=T,c=3)
+w=localinfmeas(est,fix.nugget=TRUE,c=3)
 
 res=w$respper
 res[res[,1]=="atypical obs",]
