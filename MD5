@@ -1,4 +1,4 @@
-5449a93eba77e68d2f67b8bbc779b006 *DESCRIPTION
+4fccccc26d441bf46fe4be1bc68e8782 *DESCRIPTION
 d7eb4654007af6391814aa50d3d8be29 *NAMESPACE
 319d35821eda8aaa9f86c7f2e97f077f *R/SAEMSCLfin.R
 411c45c392bf04a5da31222c76bd2520 *R/SAEMSCLprin.R
@@ -32,11 +32,11 @@ f3c8dbbd610b384d807ee7c44af0104b *man/algnaive12.Rd
 1dba144f8de28a0fb135238b2036d040 *man/derivQfun.Rd
 795987816b60784698317b1dc845c859 *man/derivcormatrix.Rd
 02aae2c223f5d76400d0801c9b4bdd06 *man/distmatrix.Rd
-c958e60fb074c11bba531cdbbf03bb40 *man/localinfmeas.Rd
+cc5818e68c9527754894f4b2ba2c2923 *man/localinfmeas.Rd
 6857a6584f7933e3b85767d10cce8675 *man/predSCL.Rd
 4f9003696c9e8c9daa242406a475d23b *man/predgraphics.Rd
 01261e825535422ad0d56e40158a44ea *man/rspacens.Rd
 365ee7d756fccf3d3888edebc8289471 *man/seminaive_1.Rd
-2ac7e2858a70f8de0b0da43491b212e4 *man/summary.SAEMSpatialCens.Rd
+dcff4e9f49af586b6235aae7e7da715a *man/summary.SAEMSpatialCens.Rd
 f5cfd02199ff8486520e6840137ecac9 *man/summary.seminaive.Rd
 7d63ecdc04036496e50330c9c03d0663 *man/summay.naive.Rd

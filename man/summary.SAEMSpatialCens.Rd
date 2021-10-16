@@ -122,7 +122,7 @@ coords=obj$datare[,1:2]
 est=SAEMSCL(cc,y,cens.type="left",trend="cte",coords=coords,
 kappa=1.2,M=15,perc=0.25,MaxIter=10,pc=0.2,cov.model=type,
 fix.nugget=TRUE,nugget=0,inits.sigmae=cov.ini[1],
-inits.phi=cov.ini[2],search=T,lower=0.00001,upper=100)
+inits.phi=cov.ini[2],search=TRUE,lower=0.00001,upper=100)
 
 summary(est)
 

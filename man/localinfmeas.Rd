@@ -146,7 +146,7 @@ sm[sm[,1]=="atypical obs",]
 ev=w$expvper
 ev[ev[,1]=="atypical obs",]
 
-fin=Sys.time()-ini
+
 ##############ANOTHER EXAMPLE#########
 
 n<-200 ### sample size for estimation
