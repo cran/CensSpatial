@@ -1,5 +1,5 @@
 summary.naive=function(object, ...){
-  if(class(object)!="naive") stop ("An object of class naive must be provided")
+  if(!inherits(object,'naive')) stop ("An object of class naive must be provided")
   #Running the algorithm
   cat('\n')
   call <- match.call()
@@ -51,7 +51,7 @@ summary.naive=function(object, ...){
   }
 
 summary.seminaive=function(object, ...){
-  if(class(object)!="seminaive") stop ("An object of class seminaive must be provided")
+  if(!inherits(object,'seminaive')) stop ("An object of class seminaive must be provided")
   #Running the algorithm
   cat('\n')
   call <- match.call()
@@ -103,7 +103,7 @@ summary.seminaive=function(object, ...){
 
 
 summary.SAEMSpatialCens=function(object, ...){
-  if(class(object)!="SAEMSpatialCens") stop("An object of class SAEMSpatialCens must be provided")
+  if(!inherits(object,'SAEMSpatialCens')) stop("An object of class SAEMSpatialCens must be provided")
   #Running the algorithm
   cat('\n')
   call <- match.call()

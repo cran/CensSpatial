@@ -1,6 +1,6 @@
 localinfmeas=function(est,fix.nugget=TRUE,diag.plot=TRUE,type.plot="all",c=3){
 
-  if(class(est)!="SAEMSpatialCens") stop("an object of the class SAEMSpatialCens must be provided")
+  if(!inherits(est,'SAEMSpatialCens')) stop("an object of the class SAEMSpatialCens must be provided")
   if(!is.logical(fix.nugget)) stop("fix.nugget must be TRUE or FALSE")
   if(!is.logical(diag.plot)) stop("diag.plot must be TRUE or FALSE")
   if(type.plot!="all" & type.plot!="rp" & type.plot!="smp" & type.plot!="evp"){

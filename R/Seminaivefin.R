@@ -14,7 +14,7 @@ Seminaive=function(data,y.col,coords.col,covar,covar.col,copred,cov.model="expon
   if(!is.logical(covar)) stop(" covar must be TRUE or FALSE.")
   if(nrow(data)!=nrow(cc)) stop ("data and cc does not have the same number of lines")
   if(length(which(cc==1))< length(cutoff)) stop("Detections limits not coincide with the number of censored observations")
-  if (trend!='cte'& trend!='1st' & trend!="2nd" & class(trend)!= "formula") stop('trend is not valid (see trend.spatial from geoR)')
+  if (trend!='cte'& trend!='1st' & trend!="2nd" & !inherits(trend,'formula')) stop('trend is not valid (see trend.spatial from geoR)')
   if(!is.numeric(y.col)) stop("a correct column for y (response) must be specified")
   if((y.col%%1)!=0) stop("a correct column for y (response) must be specified")
   if (sum(cc%in%c(0,1))< length(cc)) stop("The elements of the vector cc must be 0 or 1")
@@ -51,7 +51,7 @@ gneiting, gneiting.matern, pure.nugget')
     stop("All parameters must be provided")}
 
   if(covar==F){
-    if(class(trend)=="formula") stop("trend must be cte,1stor 2nd when covar=F")
+    if(inherits(trend,'formula')) stop("trend must be cte,1stor 2nd when covar=F")
   }
 
 
@@ -74,7 +74,7 @@ mu = beta0 + beta1*CoordX + beta2*CoordY + beta3*(CoordX)^2 +
    + beta4*(CoordY)^2 + beta5*(CoordX*CoordY)"
   }
 
-  if(class(trend)=="formula"){
+  if(inherits(trend,'formula')){
     trend1= "Linear trend,
 
 mu = X*beta"

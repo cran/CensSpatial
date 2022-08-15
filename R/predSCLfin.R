@@ -5,7 +5,7 @@ predSCL=function(xpred,coordspred,est){
   if (!is.matrix(coordspred)) as.matrix(coordspred)
   if(ncol(coordspred)!=2) stop("2D coordinates must be specified")
   if(nrow(xpred)!=nrow(coordspred)) stop("xpred does not have the same number of lines than coordspred")
-  if(class(est)!="SAEMSpatialCens") stop("an object of the class SAEMSpatialCens must be provided")
+  if(!inherits(est,'SAEMSpatialCens')) stop("an object of the class SAEMSpatialCens must be provided")
 
   if(sum(is.na(xpred)) > 0) stop("There are some NA values in xpred")
   if(sum(is.na(coordspred)) > 0) stop("There are some NA values in coordspred")
