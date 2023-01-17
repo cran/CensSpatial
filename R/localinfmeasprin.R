@@ -3,7 +3,7 @@
 
 
 locinme=function(est,fix.nugget,diag.plot=TRUE,type.plot="all",c=3){
-
+#est = SAEMres;fix.nugget= TRUE;diag.plot=TRUE;type.plot="all";c=3
   beta=est$beta
   coords = est$coords
   type = est$type
@@ -346,35 +346,109 @@ locinme=function(est,fix.nugget,diag.plot=TRUE,type.plot="all",c=3){
 
 
   if(diag.plot==T){
-    oldpar=par(mfrow=c(1,3))
     if(type.plot=="all"){
+      oldpar=par(mfrow=c(1,3))
       on.exit(par(oldpar))
-      plot1=plot(m01,ylab="M(0)",pch=20)
-      abline(h=lim1,lty=2,lwd=2)
-      on.exit(plot1)
-      plot2= plot(m02,ylab="M(0)",pch=20)
-      abline(h=lim2,lty=2,lwd=2)
-      on.exit(plot2)
-      plot3=plot(m03,ylab="M(0)",pch=20)
-      abline(h=lim3,lty=2,lwd=2)
-      on.exit(plot3)
+
+      pos1 = which(m01>lim1)
+      m01at = m01[m01>lim1]
+      labm01 = as.character(pos1)
+
+      pos2 = which(m02>lim2)
+      m02at = m02[m02>lim2]
+      labm02 = as.character(pos2)
+
+      pos3 = which(m03>lim3)
+      m03at = m03[m03>lim3]
+      labm03 = as.character(pos3)
+
+      if(identical(pos1, integer(0))){
+        plot1=plot(m01,ylab=expression(M["y"](0)),pch=20,ylim=c(min(m01), 2*lim1))
+        abline(h=lim1,lty=2,lwd=2)
+        on.exit(plot1)
+      }else{
+        plot1=plot(m01,ylab=expression(M["y"](0)),pch=20,ylim=c(min(m01), 2*lim1))
+        text(x=pos1,y = m01at, labels = labm01)
+        abline(h=lim1,lty=2,lwd=2)
+        on.exit(plot1)
+        }
+
+      if(identical(pos2, integer(0))){
+        plot2= plot(m02,ylab=expression(M[Sigma](0)),pch=20,ylim=c(min(m02), 2*lim2))
+        abline(h=lim2,lty=2,lwd=2)
+        on.exit(plot2)
+      }else{
+        plot2= plot(m02,ylab=expression(M[Sigma](0)),pch=20,ylim=c(min(m02), 2*lim2))
+        text(x=pos2,y = m02at, labels = labm02)
+        abline(h=lim2,lty=2,lwd=2)
+        on.exit(plot2)
+      }
+
+
+      if(identical(pos3, integer(0))){
+        plot3=plot(m03,ylab=expression(M[X](0)),pch=20,ylim=c(min(m03), 2*lim3))
+        abline(h=lim3,lty=2,lwd=2)
+        on.exit(plot3)
+        }else{
+          plot3=plot(m03,ylab=expression(M[X](0)),pch=20,ylim=c(min(m03), 2*lim3))
+          text(x=pos3,y = m03at, labels = labm03)
+          abline(h=lim3,lty=2,lwd=2)
+          on.exit(plot3)
+
+      }
+
       }
 
     if(type.plot=="rp"){
-      plot1=plot(m01,ylab="M(0)",pch=20)
-      on.exit(plot1)
+      pos1 = which(m01>lim1)
+      m01at = m01[m01>lim1]
+      labm01 = as.character(pos1)
+
+      if(identical(pos1, integer(0))){
+        plot1=plot(m01,ylab=expression(M["y"](0)),pch=20,ylim=c(min(m01), 2*lim1))
+        abline(h=lim1,lty=2,lwd=2)
+        on.exit(plot1)
+      }else{
+        plot1=plot(m01,ylab=expression(M["y"](0)),pch=20,ylim=c(min(m01), 2*lim1))
+        text(x=pos1,y = m01at, labels = labm01)
+        abline(h=lim1,lty=2,lwd=2)
+        on.exit(plot1)
+      }
     }
 
     if(type.plot=="smp"){
-      plot2= plot(m02,ylab="M(0)",pch=20)
-      abline(h=lim2,lty=2,lwd=2)
-      on.exit(plot2)
+      pos2 = which(m02>lim2)
+      m02at = m02[m02>lim2]
+      labm02 = as.character(pos2)
+
+      if(identical(pos2, integer(0))){
+        plot2= plot(m02,ylab=expression(M[Sigma](0)),pch=20,ylim=c(min(m02), 2*lim2))
+        abline(h=lim2,lty=2,lwd=2)
+        on.exit(plot2)
+      }else{
+        plot2= plot(m02,ylab=expression(M[Sigma](0)),pch=20,ylim=c(min(m02), 2*lim2))
+        text(x=pos2,y = m02at, labels = labm02)
+        abline(h=lim2,lty=2,lwd=2)
+        on.exit(plot2)
+      }
     }
 
     if(type.plot=="evp"){
-      plot3=plot(m03,ylab="M(0)",pch=20)
-      abline(h=lim3,lty=2,lwd=2)
-      on.exit(plot3)
+      pos3 = which(m03>lim3)
+      m03at = m03[m03>lim3]
+      labm03 = as.character(pos3)
+
+      if(identical(pos3, integer(0))){
+        plot3=plot(m03,ylab=expression(M[X](0)),pch=20,ylim=c(min(m03), 2*lim3))
+        abline(h=lim3,lty=2,lwd=2)
+        on.exit(plot3)
+      }else{
+        plot3=plot(m03,ylab=expression(M[X](0)),pch=20,ylim=c(min(m03), 2*lim3))
+        text(x=pos3,y = m03at, labels = labm03)
+        abline(h=lim3,lty=2,lwd=2)
+        on.exit(plot3)
+
+      }
     }
 
   }
@@ -382,6 +456,8 @@ locinme=function(est,fix.nugget,diag.plot=TRUE,type.plot="all",c=3){
 
 
   at1=at2=at3=NULL
+
+
 
   at1[m01>lim1]="atypical obs"
   at1[m01<=lim1]="normal obs"
@@ -395,6 +471,11 @@ locinme=function(est,fix.nugget,diag.plot=TRUE,type.plot="all",c=3){
   data.frame1=data.frame(at1,m01)
   data.frame2=data.frame(at2,m02)
   data.frame3=data.frame(at3,m03)
+
+  data.frame1 = data.frame1[m01>lim1,]
+  data.frame2 = data.frame2[m02>lim2,]
+  data.frame3 = data.frame3[m03>lim3,]
+
 
 
   s=list(Qwrp=Qw1,Qwsmp=Qw2,Qwevp=Qw3,respper=data.frame1,smper=data.frame2,expvper=data.frame3,limrp=lim1,limsmp=lim2,limevp=lim3)

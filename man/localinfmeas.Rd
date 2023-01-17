@@ -37,21 +37,21 @@ constant used for fixing the limit of detection (benchmark value).
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
-this function uses the Maximum likelihood expectation (MLE) under three perturbation schemes
-(response, scale matrix and explanatory variables perturbations) to detect the influence of outliers in the SAEM estimation procedure.
+this function uses the Maximum likelihood expectation (MLE) under three perturbation schemes,
+in the response (\eqn{M(0)_y}), scale matrix (\eqn{M(0)_{\Sigma}}) and explanatory variables (\eqn{M(0)_X}), to detect the influence of outliers in the SAEM estimation procedure.
 }
 
 \value{
 in addition to the diagnostic graphics (response, scale matrix and explanatory variable schemes, respectively), the function returns the next values.
 
-\item{Qwrp}{negative \eqn{Qw0} matrix under the response perturbation scheme.}
-\item{Qwsmp}{negative \eqn{Qw0} matrix under the scale matrix perturbation scheme.}
-\item{Qwevp}{negative \eqn{Qw0} matrix under the explanatory variable perturbation scheme.}
+\item{Qwrp}{negative \eqn{Q_{\omega_0}} matrix under the response perturbation scheme.}
+\item{Qwsmp}{negative \eqn{Q_{\omega_0}} matrix under the scale matrix perturbation scheme.}
+\item{Qwevp}{negative \eqn{Q_{\omega_0}} matrix under the explanatory variable perturbation scheme.}
 \item{respper}{data.frame containing an indicator of the presence of atypical values
 and the \eqn{M(0)} values for the response perturbation scheme.}
 \item{smper}{data.frame containing an indicator of the presence of atypical values
 and the \eqn{M(0)} values for the scale matrix perturbation scheme.}
-\item{expvper}{data.frame containing an indicator of the presence of atypical values
+\item{expvper}{a data.frame containing an indicator of the presence of atypical values
 and the \eqn{M(0)} values for the explanatory variable perturbation scheme.}
 \item{limrp}{limit of detection for outliers for the response perturbation scheme.}
 \item{limsmp}{limit of detection for outliers for the scale matrix perturbation scheme.}

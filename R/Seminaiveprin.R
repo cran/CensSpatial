@@ -1,7 +1,3 @@
-###########
-##########2.Seminaive algortihm for spatial censored prediction############
-###########
-
 seminaive=function(data,y.col,coords.col,covar,covar.col,copred,cov.model,thetaini,fix.nugget=T,nugget,kappa,cons,MaxIter,cc,cutof,trend){
   if(covar==T){
     geodataprin=as.geodata(data,coords.col =coords.col, data.col = y.col, covar.col = covar.col)
@@ -56,7 +52,7 @@ seminaive=function(data,y.col,coords.col,covar,covar.col,copred,cov.model,thetai
     z=0
     v=0
 
-    for(i in 1:sum(cc==1)){
+    for(i in which(cc==1)){
       coord=geodata$coords[-i,]
       ysin=geodata$data[-i]
       if(covar==T){
@@ -75,9 +71,10 @@ seminaive=function(data,y.col,coords.col,covar,covar.col,copred,cov.model,thetai
 
       a=krige.conv(u,coords=coord, data=ysin,locations=geodata$coords[i,], krige=kc,output=output.control(messages=F))$predict
       z[i]=krige.conv(u,coords=coord, data=ysin,locations=geodata$coords[i,], krige=kc,output=output.control(messages=F))$predict
-      v[i]=min(cutof[i],z[i])
+      v[i]=max(0,min(cutof,z[i]))
     }
     zk1=geodata$data
+    v = v[!is.na(v)]
     zk1[cc==1]=v
     if (count>0){
       crit1=abs((var(zk1)-var(zk))/var(zk))

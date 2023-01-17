@@ -1,9 +1,9 @@
-0a75866a04f09219c87aa3d52bdfeb53 *DESCRIPTION
+c62fd0834b363e18d5798b5de3ef53be *DESCRIPTION
 d7eb4654007af6391814aa50d3d8be29 *NAMESPACE
 319d35821eda8aaa9f86c7f2e97f077f *R/SAEMSCLfin.R
 411c45c392bf04a5da31222c76bd2520 *R/SAEMSCLprin.R
 d94a1e7918e511c7696ad6aaa67c00c4 *R/Seminaivefin.R
-ad455403a39dd9ac7f9d9145bc657dfb *R/Seminaiveprin.R
+f717c2418b6cb5cb9bc8994d9af62104 *R/Seminaiveprin.R
 9daa6cab4ceefdf8bdfb5663c14a7314 *R/algnaive12fin.R
 6a735ee6d97ce97dee287b981f41f2ec *R/algnaive12prin.R
 59068d7cff13252bae40bfec3f0015ef *R/auxfunjustnorm2.R
@@ -14,7 +14,7 @@ e3bd85d197972eb89fe8ea4009976535 *R/derivcormatrixprin.R
 a081ed5684f8f26d15bc9c28ab90934b *R/distmatrixfin.R
 bdf48210e19792d634da753bff8fff3c *R/distmatrixprin.R
 920b03f2bff6bb50c9e6614c3292fdf4 *R/localinfmeasfin.R
-de9452885049252dc28fbd9cdef6fba9 *R/localinfmeasprin.R
+9b873d4ad706e077c446e6190186ece0 *R/localinfmeasprin.R
 3aa34482930e683a210a7feeedc9af5e *R/predSCLfin.R
 dae946cca9dae45d0ce16b9a3b0df27e *R/predSCLprin.R
 a6f1e5237bc5e52b3fc6c8ceebdcdaf8 *R/predgraphicsfin.R
@@ -32,7 +32,7 @@ f3c8dbbd610b384d807ee7c44af0104b *man/algnaive12.Rd
 1dba144f8de28a0fb135238b2036d040 *man/derivQfun.Rd
 795987816b60784698317b1dc845c859 *man/derivcormatrix.Rd
 02aae2c223f5d76400d0801c9b4bdd06 *man/distmatrix.Rd
-cc5818e68c9527754894f4b2ba2c2923 *man/localinfmeas.Rd
+4d9b21e8db47ba99350b61d8b2689dc2 *man/localinfmeas.Rd
 6857a6584f7933e3b85767d10cce8675 *man/predSCL.Rd
 4f9003696c9e8c9daa242406a475d23b *man/predgraphics.Rd
 01261e825535422ad0d56e40158a44ea *man/rspacens.Rd
