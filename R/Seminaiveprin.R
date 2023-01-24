@@ -37,7 +37,7 @@ seminaive=function(data,y.col,coords.col,covar,covar.col,copred,cov.model,thetai
     #s=variofit(variog,ini.cov.pars=covparini, cov.model=cov.model,fix.nugget =fix.nugget, nugget =nugget,fix.kappa = TRUE, kappa = kappa,weights="cressie")
 
     s=likfit(geodata, coords = geodata$coords, data = geodata$data,
-             trend = trend, ini.cov.pars=covparini, fix.nugget = fix.nugget, nugget = nugget,cov.model=cov.model,kappa=kappa)
+             trend = trend, ini.cov.pars=covparini, fix.nugget = fix.nugget, nugget = nugget,cov.model=cov.model,kappa=kappa, messages = FALSE)
 
     phi=s$cov.pars[2]
     sigma2=s$cov.pars[1]

@@ -1,11 +1,11 @@
-c62fd0834b363e18d5798b5de3ef53be *DESCRIPTION
+63a8240b193bb946da2160ce83d39f69 *DESCRIPTION
 d7eb4654007af6391814aa50d3d8be29 *NAMESPACE
 319d35821eda8aaa9f86c7f2e97f077f *R/SAEMSCLfin.R
 411c45c392bf04a5da31222c76bd2520 *R/SAEMSCLprin.R
 d94a1e7918e511c7696ad6aaa67c00c4 *R/Seminaivefin.R
-f717c2418b6cb5cb9bc8994d9af62104 *R/Seminaiveprin.R
+696f4d1b45e5fe85151c55dc04b0b342 *R/Seminaiveprin.R
 9daa6cab4ceefdf8bdfb5663c14a7314 *R/algnaive12fin.R
-6a735ee6d97ce97dee287b981f41f2ec *R/algnaive12prin.R
+4e4b81e5d8ab623359786d9eba2558fa *R/algnaive12prin.R
 59068d7cff13252bae40bfec3f0015ef *R/auxfunjustnorm2.R
 79dcebf353561101931dabaa19ae48df *R/derivQfunfin.R
 8785dd313fc5eee656850c16a611fe78 *R/derivQfunprin.R
@@ -32,6 +32,9 @@ f3c8dbbd610b384d807ee7c44af0104b *man/algnaive12.Rd
 1dba144f8de28a0fb135238b2036d040 *man/derivQfun.Rd
 795987816b60784698317b1dc845c859 *man/derivcormatrix.Rd
 02aae2c223f5d76400d0801c9b4bdd06 *man/distmatrix.Rd
+89be0d10129ae1f1d994a0887921184b *man/figures/README-unnamed-chunk-2-1.png
+5740bfcb9cd4a9e6ff5ccd2ee223cd43 *man/figures/README-unnamed-chunk-7-1.png
+dbb0bfefb0c1c35a0cf2939f873e7b2b *man/figures/README-unnamed-chunk-8-1.png
 4d9b21e8db47ba99350b61d8b2689dc2 *man/localinfmeas.Rd
 6857a6584f7933e3b85767d10cce8675 *man/predSCL.Rd
 4f9003696c9e8c9daa242406a475d23b *man/predgraphics.Rd

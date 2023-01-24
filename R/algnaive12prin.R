@@ -41,10 +41,10 @@ naive12=function(data,cc,copred,thetaini,y.col=3,coords.col=1:2,covar,covar.col,
 
 
   est1=likfit(geodata1, coords = geodata1$coords, data = geodata1$data,kappa=kappa,
-              trend = trend, ini.cov.pars=covparini, fix.nugget = fix.nugget, nugget = nugget,cov.model=cov.model)
+              trend = trend, ini.cov.pars=covparini, fix.nugget = fix.nugget, nugget = nugget,cov.model=cov.model, messages = FALSE)
 
   est2=likfit(geodata2, coords = geodata2$coords, data = geodata2$data,kappa=kappa,
-              trend =  trend, ini.cov.pars=covparini, fix.nugget = fix.nugget, nugget =nugget,cov.model=cov.model)
+              trend =  trend, ini.cov.pars=covparini, fix.nugget = fix.nugget, nugget =nugget,cov.model=cov.model, messages = FALSE)
   kc1=krige.control(type.krige = "ok",obj.model=est1)
   kc2=krige.control(type.krige = "ok",obj.model=est2)
 
